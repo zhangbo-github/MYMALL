@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--依赖父工程-->
+    <parent>
+        <artifactId>mia-parent</artifactId>
+        <groupId>com.mia.miamall</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../mia-parent/pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.mia.miamall</groupId>
+    <artifactId>mia-manage-web</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>mia-manage-web</name>
+    <description>Demo project for Spring Boot</description>
+
+
+
+    <dependencies>
+        <!--依赖interface-->
+        <dependency>
+            <groupId>com.mia.miamall</groupId>
+            <artifactId>mia-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--依赖web-util-->
+        <dependency>
+            <groupId>com.mia.miamall</groupId>
+            <artifactId>mia-web-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--添加thymeleaf的松校验-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-ext</artifactId>
+        </dependency>
+
+        <!--引入fdfs-->
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.27-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

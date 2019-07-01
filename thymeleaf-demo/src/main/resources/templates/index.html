@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<h1> 大早上有点困呢？</h1>
+
+<h1>取值</h1>
+<div th:text="${name}"></div>
+<span th:text="${age}"></span>
+<form action="Login">
+
+    Name :<input type="hidden" name="txtname" th:value="${name}" />
+    <input type="submit" value="提交"/>
+</form>
+<h1>session---区别于request-model</h1>
+
+<p th:text="${session.sname}"></p>
+<!--引入页面-->
+<div th:include="page"></div>
+
+<!-- <span style="color:green">宝强</span>-->
+
+<h1>测试带标签的名称 utext:将html标签进行解析</h1>
+<span th:utext="${gname}"></span>
+
+<h1>循环</h1>
+<table>
+    <!--<c:foreach item="${arrayList}" var = "array">-->
+    <tr th:each="array,stat: ${arrayList}">
+        <td th:text="${array}"></td>
+        <td th:text="${stat.index}"></td>
+        <!--三元表达式-->
+        <td th:text="${stat.index}%2==0?'yes':'no'"></td>
+        <td th:if="${stat.index}=='5'">气死了</td>
+        <td th:if="${array}==马蓉">是什么伤害了你！</td>
+        <td th:if="${stat.index}!=5">好好地活着就是最有意义的事！</td>
+    </tr>
+</table>
+</body>
+</html>

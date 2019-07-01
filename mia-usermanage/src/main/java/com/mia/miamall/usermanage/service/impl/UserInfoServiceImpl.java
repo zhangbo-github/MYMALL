@@ -1,12 +1,12 @@
 package com.mia.miamall.usermanage.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.mia.miamall.bean.UserAddress;
 import com.mia.miamall.bean.UserInfo;
 import com.mia.miamall.service.UserInfoService;
 import com.mia.miamall.usermanage.mapper.UserAddressMapper;
 import com.mia.miamall.usermanage.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
