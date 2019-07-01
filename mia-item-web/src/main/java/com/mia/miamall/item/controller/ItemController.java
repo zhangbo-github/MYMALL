@@ -65,7 +65,7 @@ public class ItemController {
          *  同时，拼接SkuSaleAttrValue（sku销售属性值），拼接出所有sku
          */
         List<SkuSaleAttrValue> skuSaleAttrValueListBySpu = manageService.getSkuSaleAttrValueListBySpu(skuInfo.getSpuId());
-    System.out.println("skuSaleAttrValueListBySpu: "+skuSaleAttrValueListBySpu.toString());
+//    System.out.println("skuSaleAttrValueListBySpu: "+skuSaleAttrValueListBySpu.toString());
 //        # 108|110 30 108|110 32 9|11110 31 == 在java代码中拼写。
 //        String jsonKey = "";
 //        HashMap map = new HashMap(); 5 0-4
@@ -77,14 +77,19 @@ public class ItemController {
         for (int i = 0; i < skuSaleAttrValueListBySpu.size(); i++) {
             // 取得集合中的数据
             SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueListBySpu.get(i);
-    System.out.println("skuSaleAttrValue: "+skuSaleAttrValue.toString());
+//    System.out.println("skuSaleAttrValue: "+skuSaleAttrValue.toString());
             if (jsonKey.length()!=0){
                 jsonKey+="|";
             }
             // jsonKey+=108 jsonKey+=108|110
             jsonKey+=skuSaleAttrValue.getSaleAttrValueId();
-    System.out.println("jsonKey: "+jsonKey);
+//    System.out.println("jsonKey: "+jsonKey);
             // 什么时候将jsonKey 重置！什么时候结束拼接
+            /**
+             * 如果skuSaleAttrValueListBySpu中没有数据
+             *  或者当前的skuSaleAttrValue的 skuId 不等于 下一个skuSaleAttrValue的skuId
+             * 因为sql语句做了groupby，所以相同的skuId一定是在一起
+             */
             if ((i+1)==skuSaleAttrValueListBySpu.size() || !skuSaleAttrValue.getSkuId().equals(skuSaleAttrValueListBySpu.get(i+1).getSkuId()) ){
                 map.put(jsonKey,skuSaleAttrValue.getSkuId());
                 jsonKey="";
