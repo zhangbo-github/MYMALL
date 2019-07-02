@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/fastdfs-client-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-bean" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-common-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-item-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-manage-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-manage-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-order-wed" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-service-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-usermanage" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mia-web-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thymeleaf-demo" charset="UTF-8" />
+  </component>
+</project>

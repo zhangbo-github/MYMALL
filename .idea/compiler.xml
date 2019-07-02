@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="fastdfs-client-java" />
+        <module name="mia-bean" />
+        <module name="mia-common-util" />
+        <module name="mia-interface" />
+        <module name="mia-item-web" />
+        <module name="mia-manage-service" />
+        <module name="mia-manage-web" />
+        <module name="mia-order-wed" />
+        <module name="mia-service-util" />
+        <module name="mia-usermanage" />
+        <module name="mia-web-util" />
+        <module name="thymeleaf-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="a-miamall-parent" target="1.5" />
+      <module name="fastdfs-client-java" target="1.6" />
+      <module name="mia-bean" target="1.8" />
+      <module name="mia-common-util" target="1.8" />
+      <module name="mia-interface" target="1.8" />
+      <module name="mia-item-web" target="1.8" />
+      <module name="mia-manage-service" target="1.8" />
+      <module name="mia-manage-web" target="1.8" />
+      <module name="mia-order-wed" target="1.8" />
+      <module name="mia-parent" target="1.8" />
+      <module name="mia-service-util" target="1.8" />
+      <module name="mia-usermanage" target="1.8" />
+      <module name="mia-web-util" target="1.8" />
+      <module name="se_note" target="1.5" />
+      <module name="thymeleaf-demo" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mia-item-web" options="" />
+      <module name="mia-manage-service" options="" />
+      <module name="mia-manage-web" options="" />
+      <module name="thymeleaf-demo" options="" />
+    </option>
+  </component>
+</project>

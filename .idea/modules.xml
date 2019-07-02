@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MYMALL.iml" filepath="$PROJECT_DIR$/MYMALL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fastdfs-client-java/fastdfs-client-java.iml" filepath="$PROJECT_DIR$/fastdfs-client-java/fastdfs-client-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-bean/mia-bean.iml" filepath="$PROJECT_DIR$/mia-bean/mia-bean.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-common-util/mia-common-util.iml" filepath="$PROJECT_DIR$/mia-common-util/mia-common-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-interface/mia-interface.iml" filepath="$PROJECT_DIR$/mia-interface/mia-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-item-web/mia-item-web.iml" filepath="$PROJECT_DIR$/mia-item-web/mia-item-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-manage-service/mia-manage-service.iml" filepath="$PROJECT_DIR$/mia-manage-service/mia-manage-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-manage-web/mia-manage-web.iml" filepath="$PROJECT_DIR$/mia-manage-web/mia-manage-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-order-wed/mia-order-wed.iml" filepath="$PROJECT_DIR$/mia-order-wed/mia-order-wed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-parent/mia-parent.iml" filepath="$PROJECT_DIR$/mia-parent/mia-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-service-util/mia-service-util.iml" filepath="$PROJECT_DIR$/mia-service-util/mia-service-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-usermanage/mia-usermanage.iml" filepath="$PROJECT_DIR$/mia-usermanage/mia-usermanage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mia-web-util/mia-web-util.iml" filepath="$PROJECT_DIR$/mia-web-util/mia-web-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thymeleaf-demo/thymeleaf-demo.iml" filepath="$PROJECT_DIR$/thymeleaf-demo/thymeleaf-demo.iml" />
+    </modules>
+  </component>
+</project>
