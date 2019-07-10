@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSON;
 import com.mia.miamall.bean.SkuInfo;
 import com.mia.miamall.bean.SkuSaleAttrValue;
 import com.mia.miamall.bean.SpuSaleAttr;
+import com.mia.miamall.config.LoginRequire;
+import com.mia.miamall.service.ListService;
 import com.mia.miamall.service.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,9 @@ public class ItemController {
     @Reference
     private ManageService manageService;
 
+    @Reference
+    private ListService listService;
+
 //    @RequestMapping("{skuId}.html")
 //    public String index(@PathVariable(value = "skuId") String skuId){
 //
@@ -29,7 +34,7 @@ public class ItemController {
 //        return "item";
 //    }
 
-
+    @LoginRequire(autoRedirect = true)
     @RequestMapping("{skuId}.html")
     public String index(@PathVariable(value = "skuId") String skuId, Model model, HttpServletRequest request){
         // 商品详细信息，是根据页面传递过来的商品Id 进行查找！动态，如何变成动态？
@@ -96,9 +101,14 @@ public class ItemController {
             }
         }
 
+        // 调用热度排名
+        listService.incrHotScore(skuId);
+
         // 转换json字符串
         String valuesSkuJson = JSON.toJSONString(map);
         System.out.println("valuesSkuJson="+valuesSkuJson);
+
+        //将这个map传给前端（前端就可以通过拼装key，并查询出对应的value也就是skuId,从而拼装请求路径）
         request.setAttribute("valuesSkuJson",valuesSkuJson);
 
         return "item";

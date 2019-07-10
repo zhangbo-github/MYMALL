@@ -6,22 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class SkuInfo implements Serializable {
-    @Override
-    public String toString() {
-        return "SkuInfo{" +
-                "id='" + id + '\'' +
-                ", spuId='" + spuId + '\'' +
-                ", price=" + price +
-                ", skuName='" + skuName + '\'' +
-                ", weight=" + weight +
-                ", skuDesc='" + skuDesc + '\'' +
-                ", catalog3Id='" + catalog3Id + '\'' +
-                ", skuDefaultImg='" + skuDefaultImg + '\'' +
-                ", skuImageList=" + skuImageList +
-                ", skuAttrValueList=" + skuAttrValueList +
-                ", skuSaleAttrValueList=" + skuSaleAttrValueList +
-                '}';
-    }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -145,4 +129,22 @@ public class SkuInfo implements Serializable {
     public void setSkuSaleAttrValueList(List<SkuSaleAttrValue> skuSaleAttrValueList) {
         this.skuSaleAttrValueList = skuSaleAttrValueList;
     }
+
+    @Override
+    public String toString() {
+        return "SkuInfo{" +
+                "id='" + id + '\'' +
+                ", spuId='" + spuId + '\'' +
+                ", price=" + price +
+                ", skuName='" + skuName + '\'' +
+                ", weight=" + weight +
+                ", skuDesc='" + skuDesc + '\'' +
+                ", catalog3Id='" + catalog3Id + '\'' +
+                ", skuDefaultImg='" + skuDefaultImg + '\'' +
+                ", skuImageList=" + skuImageList +
+                ", skuAttrValueList=" + skuAttrValueList +
+                ", skuSaleAttrValueList=" + skuSaleAttrValueList +
+                '}';
+    }
+
 }

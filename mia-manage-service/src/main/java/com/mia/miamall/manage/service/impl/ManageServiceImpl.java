@@ -7,6 +7,7 @@ import com.mia.miamall.config.RedisUtil;
 import com.mia.miamall.manage.constant.ManageConst;
 import com.mia.miamall.manage.mapper.*;
 import com.mia.miamall.service.ManageService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 
@@ -75,6 +76,7 @@ public class ManageServiceImpl implements ManageService {
         return  baseCatalog3Mapper.select(baseCatalog3);
     }
 
+    /*根据catalog3Id获取平台属性信息*/
     @Override
     public List<BaseAttrInfo> getAttrList(String catalog3Id) {
 //        BaseAttrInfo baseAttrInfo = new BaseAttrInfo();
@@ -125,16 +127,19 @@ public class ManageServiceImpl implements ManageService {
         return baseAttrInfo;
     }
 
+    /*获取spuInfo列表*/
     @Override
     public List<SpuInfo> getSpuInfoList(SpuInfo spuInfo) {
         return spuInfoMapper.select(spuInfo);
     }
 
+    /*获取基本销售属性列表*/
     @Override
     public List<BaseSaleAttr> getBaseSaleAttrList() {
         return baseSaleAttrMapper.selectAll();
     }
 
+    /*添加spuInfo*/
     @Override
     public void saveSpuInfo(SpuInfo spuInfo) {
         // 获取spuInfo， null ==""
@@ -198,6 +203,8 @@ public class ManageServiceImpl implements ManageService {
             }
         }
     }
+
+    /*获取spu的图片信息列表*/
     @Override
     public List<SpuImage> getSpuImageList(String spuId) {
         // spuId 传入对象
@@ -206,11 +213,13 @@ public class ManageServiceImpl implements ManageService {
         return spuImageMapper.select(spuImage);
     }
 
+    /*获取spu的销售属性列表*/
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
         return  spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
     }
 
+    /*添加sku*/
     @Override
     public void saveSku(SkuInfo skuInfo) {
         // 插入skuInfo
@@ -274,9 +283,11 @@ public class ManageServiceImpl implements ManageService {
         }
     }
 
+    /*通过skuId获取对应的SkuInfo*/
     @Override
     public SkuInfo getSkuInfo(String skuId) {
         SkuInfo skuInfo = null;
+
         try{
             Jedis jedis = redisUtil.getJedis();
             // 定义key
@@ -296,13 +307,14 @@ public class ManageServiceImpl implements ManageService {
                 String skuLockKey=ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKULOCK_SUFFIX;
                 // 生成锁                                                                                    10000
                 String lockKey  = jedis.set(skuLockKey, "OK", "NX", "PX", ManageConst.SKULOCK_EXPIRE_PX);
+                //如果锁还存在，则其他用户无法再访问（防止缓存击穿）（理解:redis中的key处于过期状态时，却高并发的访问这个key）
                 if ("OK".equals(lockKey)){
                     System.out.println("获取锁！");
                     // 从数据库中取得数据
                     skuInfo = getSkuInfoDB(skuId);
                     // 将对象转换成json字符串
                     String skuRedisStr = JSON.toJSONString(skuInfo);
-                    // 将数据放入缓存                      1天
+                    // 将数据放入缓存，并设置过期时间
                     jedis.setex(skuInfoKey, ManageConst.SKUKEY_TIMEOUT,skuRedisStr);
                     jedis.close();
                     return skuInfo;
@@ -329,7 +341,7 @@ public class ManageServiceImpl implements ManageService {
     }
 
     // 快速提取方法：ctrl+alt+m
-    /*从数据库skuInfo*/
+    /*从数据库获取skuInfo*/
     private SkuInfo getSkuInfoDB(String skuId) {
         SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
         // skuImag放入skuInfo的imageList集合中即可！
@@ -338,16 +350,28 @@ public class ManageServiceImpl implements ManageService {
         skuImage.setSkuId(skuInfo.getId());
         List<SkuImage> skuImageList = skuImageMapper.select(skuImage);
         skuInfo.setSkuImageList(skuImageList);
-        // 什么时候，使用，再写！
+
+        // es用到！将平台属性值进行查询并保存！
+        SkuAttrValue skuAttrValue = new SkuAttrValue();
+        skuAttrValue.setSkuId(skuId);
+        List<SkuAttrValue> skuAttrValueList = skuAttrValueMapper.select(skuAttrValue);
+        skuInfo.setSkuAttrValueList(skuAttrValueList);
+
+        //将销售属性值查询并保存（备用）
+        SkuSaleAttrValue skuSaleAttrValue = new SkuSaleAttrValue();
+        skuSaleAttrValue.setSkuId(skuId);
+        List<SkuSaleAttrValue> saleAttrValueList = skuSaleAttrValueMapper.select(skuSaleAttrValue);
+        skuInfo.setSkuSaleAttrValueList(saleAttrValueList);
 
         return skuInfo;
     }
 
     /**
-     * 根据SkuInfo中的spuId,查询spuSaleAttr(销售属性)和spuSaleAttrValue（销售属性值）
-     * 即该sku所属的spu的信息
-     * @param skuInfo
-     * @return
+     * 根据skuInfo中skuId及关联的spuId，查询出该spu的全部销售属性名和销售属性值,
+     * 			用于当前spu中不同sku的选择,
+     * 			还要查询出该sku对应的sku_sale_attr_value，用于选中框的显示
+     * 			添加is_checked字段，如果为1，则表示是该sku的sku_sale_attr_value
+     * 			sql语句中：IF(sku_sale_attr_value.sku_id IS NOT NULL,1,0)  is_checked
      */
     @Override
     public List<SpuSaleAttr> selectSpuSaleAttrListCheckBySku(SkuInfo skuInfo) {
@@ -355,7 +379,10 @@ public class ManageServiceImpl implements ManageService {
     }
 
     /**
-     *
+     *  把当前spu下的所有sku列出来，大致格式为
+     * 	sku_attr_value的id(1)|sku_attr_value的id(2)|(...)... skuId
+     * 	如 33|44 55   (白色|黑色 55)
+     * 	sql语句：查询该spu下的所有sku
      * @param spuId
      * @return
      */
@@ -363,6 +390,20 @@ public class ManageServiceImpl implements ManageService {
     public List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId) {
         return skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);
 
+    }
+
+    /*根据attrValueId集合，查询对应的BaseAttrInfo集合（面包屑前奏，筛选条件的功能，
+    需要展示 平台属性名和对应的平台属性值）*/
+    //这是一个重载方法，还有通过catalog3Id查询对应的平台属性名和对应的平台属性值
+    @Override
+    public List<BaseAttrInfo> getAttrList(List<String> attrValueIdList) {
+        // 使用工具类
+        String attrValueIds = StringUtils.join(attrValueIdList.toArray(), ",");
+        // 调用mapper == attrValueIdList 集合，我们需要将集合中的所有Id 遍历查出数据，foreach标签：
+        // select * from baseAttrInfo where id in (1,2,3,4);
+        // foreach ： 逊色 --  select * from baseAttrInfo where id in (1,2,3,4);
+        List<BaseAttrInfo> baseAttrInfoList = baseAttrInfoMapper.selectAttrInfoListByIds(attrValueIds);
+        return baseAttrInfoList;
     }
 
 }

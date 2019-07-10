@@ -11,4 +11,9 @@ public interface UserInfoService {
     List<UserInfo> findAll();
     // 根据userId 查询用户地址列表
     List<UserAddress> getUserAddressList(String userId);
+
+    // 登录
+    UserInfo login(UserInfo userInfo);
+    // 认证方法
+    UserInfo verify(String userId);
 }

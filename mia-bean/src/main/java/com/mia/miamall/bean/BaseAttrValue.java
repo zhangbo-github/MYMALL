@@ -2,6 +2,7 @@ package com.mia.miamall.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 public class BaseAttrValue implements Serializable {
@@ -13,6 +14,8 @@ public class BaseAttrValue implements Serializable {
     private String valueName;
     @Column
     private String attrId;
+    @Transient
+    private String urlParam;
 
     public String getId() {
         return id;
@@ -38,12 +41,21 @@ public class BaseAttrValue implements Serializable {
         this.attrId = attrId;
     }
 
+    public String getUrlParam() {
+        return urlParam;
+    }
+
+    public void setUrlParam(String urlParam) {
+        this.urlParam = urlParam;
+    }
+
     @Override
     public String toString() {
         return "BaseAttrValue{" +
                 "id='" + id + '\'' +
                 ", valueName='" + valueName + '\'' +
                 ", attrId='" + attrId + '\'' +
+                ", urlParam='" + urlParam + '\'' +
                 '}';
     }
 }
