@@ -6,6 +6,7 @@ import com.mia.miamall.bean.BaseAttrInfo;
 import com.mia.miamall.bean.BaseAttrValue;
 import com.mia.miamall.bean.SkuLsParams;
 import com.mia.miamall.bean.SkuLsResult;
+import com.mia.miamall.config.LoginRequire;
 import com.mia.miamall.service.ListService;
 import com.mia.miamall.service.ManageService;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class ListController {
     private ManageService manageService;
 
     @RequestMapping("list.html")
+    @LoginRequire(autoRedirect=false)
     public String list(SkuLsParams skuLsParams, HttpServletRequest request, Model model){
         // 设置每页显示的条数
         //skuLsParams.setPageSize(3);

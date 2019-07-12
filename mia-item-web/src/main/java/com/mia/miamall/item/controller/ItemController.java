@@ -34,7 +34,7 @@ public class ItemController {
 //        return "item";
 //    }
 
-    @LoginRequire(autoRedirect = true)
+    @LoginRequire(autoRedirect = false)
     @RequestMapping("{skuId}.html")
     public String index(@PathVariable(value = "skuId") String skuId, Model model, HttpServletRequest request){
         // 商品详细信息，是根据页面传递过来的商品Id 进行查找！动态，如何变成动态？

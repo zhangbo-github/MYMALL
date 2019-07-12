@@ -23,6 +23,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         // 将生产token 放入cookie 中
         // http://item.miamall.com/32.html?newToken=eyJhbGciOiJIUzI1NiJ9.eyJuaWNrTmFtZSI6IkFkbWluaXN0cmF0b3IiLCJ1c2VySWQiOiIyIn0.WUvbFvXQnTMBGNyHWT-DE41MR9cn7c_W1oAtDAzb7VU
         String token = request.getParameter("newToken");
+System.out.println("拦截器中的newToken: "+token);
         if (token!=null){
             // 将token 放入cookie 中
             CookieUtil.setCookie(request,response,"token",token,WebConst.COOKIE_MAXAGE,false);
@@ -32,6 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (token==null){
             //  如果用户登录了，访问其他页面的时候不会有newToken，那么token 可能已经在cookie 中存在了
             token = CookieUtil.getCookieValue(request,"token",false);
+System.out.println("拦截器中的(已登陆)Token: "+token);
         }
         // 已经登录的token，cookie 中的token。
         if (token!=null){
@@ -40,6 +42,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             String nickName = (String) map.get("nickName");
             request.setAttribute("nickName", nickName);
         }
+System.out.println("web-util中进入控制器之前获取的token: "+token);
         // Object handler
         // 获取方法，获取方法上的注解
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -48,17 +51,19 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (methodAnnotation!=null){
             //  必须要登录【调用认证】
             String remoteAddr = request.getHeader("x-forwarded-for");
-            // 认证控制器在那个项目？ 远程调用，                http://passport.mia.com/verify?token=XXXXX&currentIp=192.168.1.152
+            // 认证控制器在那个项目？ 远程调用，                http://passport.mia.com/verify?token=XXXXX&currentIp=192.168.1.1
             String result = HttpClientUtil.doGet(WebConst.VERIFY_ADDRESS + "?token=" + token + "&currentIp=" + remoteAddr);
+System.out.println("web-util中远程调用认证方法返回的result:"+result);
             if ("success".equals(result)){
                 // 说明当前用户已经登录，保存userId : 购物车使用！
                 Map map = getUserMapByToken(token);
                 String userId = (String) map.get("userId");
+System.out.println("web-util中远程调用认证方法后的userId: "+userId);
                 request.setAttribute("userId", userId);
                 return true;
             } else {
                 // fail
-                if (methodAnnotation.autoRedirect()){
+                if (methodAnnotation.autoRedirect()){//如果注解的值为true
                     // 认证失败！重新登录！
                     /*http://passport.atguigu.com/index?originUrl=http%3A%2F%2Fitem.miamall.com%2F32.html*/
                     String requestURL  = request.getRequestURL().toString(); // http://item.miamall.com/2.html

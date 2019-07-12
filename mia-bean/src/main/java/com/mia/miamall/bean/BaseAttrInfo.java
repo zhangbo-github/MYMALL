@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-public class BaseAttrInfo implements Serializable {
+public class BaseAttrInfo implements Serializable{
 
     // 获取主键自增atuo
     @Id

@@ -79,15 +79,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         Jedis jedis = redisUtil.getJedis();
         // 定义key
         String key = userKey_prefix+userId+userinfoKey_suffix;
-
+System.out.println("认证方法制拼装的key: "+key);
         // 通过key 获取数据
         String userJson = jedis.get(key);
         // 因为认证操作相当于其他模块 ，在登录，就需要延长用户过期时间
         jedis.expire(key,userKey_timeOut);
-
+System.out.println("认证后返回的userJson: "+userJson);
         if (userJson!=null && userJson.length()>0){
             // 将字符串转换为对象
             UserInfo userInfo = JSON.parseObject(userJson, UserInfo.class);
+System.out.println("认证后返回的userInfo: "+userInfo);
             return userInfo;
         }
         return null;

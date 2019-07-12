@@ -14,6 +14,13 @@ import java.net.URLEncoder;
 public class CookieUtil {
 
 
+    /**
+     *
+     * @param request
+     * @param cookieName cookie名称
+     * @param isDecoder 是否中文转码utf8
+     * @return
+     */
     public static String getCookieValue(HttpServletRequest request,
                                         String cookieName, boolean isDecoder) {
         Cookie[] cookies = request.getCookies();
@@ -28,6 +35,7 @@ public class CookieUtil {
                         retValue = URLDecoder.decode(cookies[i].getValue(), "UTF-8");
                     } else {
                         retValue = cookies[i].getValue();
+System.out.println("web-util中获取的cookies: "+retValue);
                     }
                     break;
                 }
