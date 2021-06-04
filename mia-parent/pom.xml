@@ -46,7 +46,7 @@
         <jsoup.version>1.11.2</jsoup.version>
 
         <!--远程服务调用-->
-        <httpclient.version>4.5.5</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
 
         <!--工具包-->
         <commons-lang3.version>3.7</commons-lang3.version>
